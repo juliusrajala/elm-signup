@@ -1,0 +1,107 @@
+body {
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  color: #293c4b;
+}
+
+h1 {
+  font-size: 30px;
+  padding: 10px;
+}
+
+img {
+  margin: 20px 0;
+  max-width: 200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.PageContainer {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.SignupContainer {
+  padding: 40px;
+  width: 800px;
+  max-width: 100%;
+  background-color: #fff;
+  box-shadow: 1px 3px 9px -1px rgba(0,0,0,0.24);
+  border-radius: 4px;
+  animation: appear .5s ease-in-out;
+}
+
+.SignupContainer-description {
+  padding: 10px;
+}
+
+.SignupForm {
+  text-align: right;
+  padding: 10px;
+}
+
+.SignupForm-button {
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid #e3344f;
+  padding: 10px 20px 10px 20px;
+  font-size: 1.2rem;
+  color: #e3344f;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  box-shadow: 1px 3px 9px -1px rgba(0,0,0,0.24);
+}
+
+.SignupForm-button:hover {
+  background-color: #e3344f;
+  color: #fff;
+  box-shadow: 1px 2px 9px -1px rgba(0,0,0,0.24);
+}
+
+.Input-label {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.Input-field {
+  display: block;
+  border: none;
+  border-bottom: 2px solid #363636;
+  font-size: 1.2rem;
+  padding: 5px;
+  width: 100%;
+  transition: all .2s ease-in-out;
+  margin-top: 5px;
+}
+
+.Input-field:focus {
+  outline: none;
+  border-color: #e3344f;
+}
