@@ -3,9 +3,12 @@ module Main exposing (..)
 import Html exposing (Html, Attribute, text, div, h1, p, img, form, input, label, button, span)
 import Html.Attributes exposing (src, class, type_)
 import Html.Events exposing (onWithOptions, onInput)
+import Types exposing (Model, FormView)
+
+import DetailsForm exposing (detailsForm)
 
 import Json.Decode as Decode exposing (..)
-import Json.Encode as Encode exposing (..)
+-- import Json.Encode as Encode exposing (..)
 
 
 ---- Strings ----
@@ -18,25 +21,15 @@ welcomeMessage = "Just sign up for service X and you are ready to start changing
 
 ---- MODEL ----
 
-
-type alias Model =
-    { email : String
-    , firstname : String
-    , lastname : String
-    , organization : String
-    , password : String
-    , repeatPassword : String
-    , validEmail : Bool
-    }
-
 initialState : Model
 initialState =
     { email = ""
-    , firstname = ""
-    , lastname = ""
+    , firstName = ""
+    , lastName = ""
     , organization = ""
     , password = ""
     , repeatPassword = ""
+    , currentForm = Types.Account
     , validEmail = False
     }
 
@@ -48,6 +41,12 @@ isPasswordValid : String -> String -> Bool
 isPasswordValid password repeatPassword =
     password == repeatPassword && String.length password > 5
 
+formToOpen : Model -> FormView
+formToOpen model =
+    case model.currentForm of
+        Types.Account -> Types.Details
+        Types.Details -> Types.Confirm
+        Types.Confirm -> Types.Confirm
 
 
 
@@ -63,11 +62,9 @@ onSubmit msg =
 
 type Msg
     = ChangeEmail String
-    | ChangeFirstname String
-    | ChangeLastname String
-    | ChangeOrganization String
     | ChangePassword String
     | ChangeRepeatPassword String
+    | SetView FormView
     | NoOp
 
 
@@ -76,20 +73,15 @@ update msg model =
     case msg of
         ChangeEmail email ->
             ( { model | email = email }, Cmd.none )
-        ChangeFirstname firstname ->
-            ( { model | firstname = firstname }, Cmd.none )
-        ChangeLastname lastname ->
-            ( { model | lastname = lastname }, Cmd.none )
-        ChangeOrganization organization ->
-            ( { model | organization = organization }, Cmd.none )
         ChangePassword password ->
             ( { model | password = password }, Cmd.none )
         ChangeRepeatPassword repeatPassword ->
             ( { model | repeatPassword = repeatPassword }, Cmd.none )
+        SetView view ->
+            ( { model | currentForm = view}, Cmd.none )
         NoOp -> ( model, Cmd.none )
 
 ---- VIEW ----
-
 
 view : Model -> Html Msg
 view model =
@@ -130,24 +122,31 @@ signupForm model =
         nextButton : Html Msg
         nextButton =
             if validPassword then
-                button [ class "SignupForm-button" ] [ text "Next" ]
+                button [ class "SignupForm-button", onClick (SetView (formToOpen model)) ] [ text "Next" ]
             else
                 button [ class "SignupForm-button" ] [ text "Fix" ]
     in
         div [ class "SignupContainer" ]
             [ formNavigation model
             , div [ class "SignupContainer-form" ]
-                [ h1 [ class "SignupContainer-title" ] [ text formTitle ]
-                , form [ class "SignupForm" ]
-                    [ p [ class "SignupContainer-description" ] [ text welcomeMessage ]
-                    , label [ class "Input-label", onInput ChangeEmail ] [ text "Email", input [ class "Input-field" ] [] ]
-                    , label [ class "Input-label", onInput ChangePassword ] [ text "Password", input [ class passwordClasses, type_ "password"  ] [] ]
-                    , label [ class "Input-label", onInput ChangeRepeatPassword ] [ text "Repeat password", input [ class passwordClasses, type_ "password"  ] [] ]
-                    , nextButton
-                    ]
+                [ h1 [ class "SignupContainer-title" ][ text formTitle ]
+                , case model.currentForm of
+                    Types.Account -> accountForm model
+                    Types.Details -> detailsForm model
+                    Types.Confirm -> accountForm model
+                , nextButton
                 ]
             ]
-            
+
+accountForm : Model -> Html Msg
+accountForm model =
+    form [ class "SignupForm" ]
+        [ p [ class "SignupContainer-description" ] [ text welcomeMessage ]
+        , label [ class "Input-label", onInput ChangeEmail ] [ text "Email", input [ class "Input-field" ] [] ]
+        , label [ class "Input-label", onInput ChangePassword ] [ text "Password", input [ class "Input-field", type_ "password"  ] [] ]
+        , label [ class "Input-label", onInput ChangeRepeatPassword ] [ text "Repeat password", input [ class "Input-field", type_ "password"  ] [] ]
+        ]
+
 
 ---- PROGRAM ----
 
