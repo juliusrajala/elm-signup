@@ -11,8 +11,25 @@ type alias Model =
     , validEmail : Bool
     }
 
-
 type FormView
     = Account
     | Details
     | Confirm
+
+--- Update
+
+type AccountMsg
+    = ChangeEmail String
+    | ChangePassword String
+    | ChangeRepeatPassword String
+
+
+type DetailsMsg
+    = ChangeFirstname String
+    | ChangeLastname String
+    | ChangeOrganization String
+
+type Msg
+    = MsgForAccount AccountMsg
+    | MsgForDetails DetailsMsg
+    | SetView FormView
