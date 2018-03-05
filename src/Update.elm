@@ -25,9 +25,11 @@ updateDetails msg model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msgFor model =
     case msgFor of
-      Types.MsgForAccount msg ->
-          updateAccount msg model
-      Types.MsgForDetails msg ->
-          updateDetails msg model
-      Types.SetView view ->
-          ( { model | currentForm = view}, Cmd.none )
+        Types.MsgForAccount msg ->
+            updateAccount msg model
+        Types.MsgForDetails msg ->
+            updateDetails msg model
+        Types.SetView view ->
+            ( { model | currentForm = view}, Cmd.none )
+        NoOp ->
+            ( model, Cmd.none )

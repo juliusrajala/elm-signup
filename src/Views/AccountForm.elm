@@ -1,12 +1,13 @@
 module Views.AccountForm exposing (..)
 
-import Types exposing (Model, Msg)
-import Html exposing (Html, Attribute, text, p, img, form, input, label)
+import Html exposing (Html, Attribute, text, p, img, form, input, label, button)
 import Html.Attributes exposing (src, class, type_, value)
 import Html.Events exposing (onInput)
 
+import Types exposing (Model, Msg)
 import Utils.Strings exposing (formTitle, welcomeMessage)
-
+import Utils.Validation exposing (validPassword)
+import Views.ActionButton exposing (actionButton)
 
 accountForm : Model -> Html Msg
 accountForm model =
@@ -18,4 +19,5 @@ accountForm model =
             [ text "Password", input [ class "Input-field", type_ "password", value model.password ] [] ]
         , label [ class "Input-label", onInput (Types.MsgForAccount << Types.ChangeRepeatPassword) ]
             [ text "Repeat password", input [ class "Input-field", type_ "password", value model.repeatPassword ] [] ]
+        , actionButton "Next" (validPassword model) (Types.SetView Types.Details)
         ]

@@ -33,3 +33,4 @@ type Msg
     = MsgForAccount AccountMsg
     | MsgForDetails DetailsMsg
     | SetView FormView
+    | NoOp 
