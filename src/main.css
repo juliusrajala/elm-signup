@@ -141,6 +141,7 @@ img {
 .FormNavigation {
   display: flex;
   flex-direction: row;
+  padding-bottom: 20px;
 }
 
 .FormNavigation-item {
@@ -149,6 +150,14 @@ img {
   flex: 1;
   align-items: center;
   position: relative;
+}
+
+.FormNavigation-item--Active > .FormNavigation-box {
+  background-color: #2196F3;
+}
+
+.FormNavigation-item--Active > .FormNavigation-text {
+
 }
 
 .FormNavigation-box {
@@ -171,7 +180,7 @@ img {
   content: "";
   width: 100%;
   height: 0px;
-  border-top: 2px dashed #2196F3;
+  border-top: 2px dotted #fff;
   left: 50%;
   top: 8px;
   z-index: 1;
