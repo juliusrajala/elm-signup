@@ -2,15 +2,16 @@ module Main exposing (..)
 
 import Html exposing (Html, Attribute, text, div, h1, p, img, form, input, label, button, span)
 import Html.Attributes exposing (src, class, type_)
-import Html.Events exposing (onWithOptions, onInput, on)
 import Types exposing (Model, FormView, Msg)
 import Update exposing (update)
-import Strings exposing (formTitle, welcomeMessage)
 
--- import DetailsForm exposing (detailsForm)
+import Views.FormNavigation exposing (formNavigation)
+import Views.DetailsForm exposing (detailsForm)
+import Views.AccountForm exposing (accountForm)
+import Views.ConfirmForm exposing (confirmForm)
 
-import Json.Decode as Decode exposing (..)
--- import Json.Encode as Encode exposing (..)
+import Utils.Strings exposing (formTitle, welcomeMessage)
+import Utils.Attributes exposing (onClick)
 
 ---- MODEL ----
 
@@ -41,39 +42,12 @@ formToOpen model =
         Types.Details -> Types.Confirm
         Types.Confirm -> Types.Confirm
 
----- UPDATE ----
-
-onClick : Msg -> Attribute Msg
-onClick msg =
-    onWithOptions "click" { stopPropagation = True, preventDefault = True } (Decode.succeed msg)
-
-onSubmit : Msg -> Attribute Msg
-onSubmit msg =
-    onWithOptions "submit" { stopPropagation = True, preventDefault = True } (Decode.succeed msg)
-
 ---- VIEW ----
 
 view : Model -> Html Msg
 view model =
     div [ class "PageContainer" ]
         [ signupForm model
-        ]
-
-formNavigation : Model -> Html Msg
-formNavigation model =
-    div [ class "FormNavigation" ]
-        [ div [ class "FormNavigation-item" ]
-            [ span [ class "FormNavigation-box" ] []
-            , span [ class "FormNavigation-text" ] [ text "Account" ]
-            ]
-        , div [ class "FormNavigation-item" ]
-            [ span [ class "FormNavigation-box" ] []
-            , span [ class "FormNavigation-text" ] [ text "User info" ]
-            ]
-        , div [ class "FormNavigation-item" ]
-            [ span [ class "FormNavigation-box" ] []
-            , span [ class "FormNavigation-text" ] [ text "Confirmation" ]
-            ]
         ]
 
 signupForm : Model -> Html Msg
@@ -100,19 +74,12 @@ signupForm model =
             [ formNavigation model
             , div [ class "SignupContainer-form" ]
                 [ h1 [ class "SignupContainer-title" ][ text formTitle ]
-                , accountForm model
+                , case model.currentForm of
+                    Types.Account -> accountForm model
+                    Types.Details -> detailsForm model
+                    Types.Confirm -> confirmForm model
                 ]
             ]
-
-accountForm : Model -> Html Msg
-accountForm model =
-    form [ class "SignupForm" ]
-        [ p [ class "SignupContainer-description" ] [ text welcomeMessage ]
-        , label [ class "Input-label", onInput (Types.MsgForAccount << Types.ChangeEmail) ] [ text "Email", input [ class "Input-field" ] [] ]
-        , label [ class "Input-label", onInput (Types.MsgForAccount << Types.ChangePassword) ] [ text "Password", input [ class "Input-field", type_ "password"  ] [] ]
-        , label [ class "Input-label", onInput (Types.MsgForAccount << Types.ChangeRepeatPassword) ] [ text "Repeat password", input [ class "Input-field", type_ "password"  ] [] ]
-        ]
-
 
 ---- PROGRAM ----
 

@@ -1,4 +1,4 @@
-module Strings exposing (..)
+module Utils.Strings exposing (..)
 
 formTitle : String
 formTitle = "Sign up for Service X"
