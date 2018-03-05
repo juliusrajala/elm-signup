@@ -1,18 +1,9 @@
 module Main exposing (..)
 
-import Html exposing (Html, Attribute, text, div, h1, p, img, form, input, label, button, span)
-import Html.Attributes exposing (src, class, type_)
-import Types exposing (Model, FormView, Msg)
+import Html exposing (Html)
+import Types exposing (Model, Msg)
 import Update exposing (update)
-
-import Views.FormNavigation exposing (formNavigation)
-import Views.DetailsForm exposing (detailsForm)
-import Views.AccountForm exposing (accountForm)
-import Views.ConfirmForm exposing (confirmForm)
-
-import Utils.Strings exposing (formTitle, welcomeMessage)
-
----- MODEL ----
+import Views.Main exposing (view)
 
 initialState : Model
 initialState =
@@ -28,23 +19,6 @@ initialState =
 
 init : ( Model, Cmd Msg )
 init = ( initialState , Cmd.none )
-
----- VIEW ----
-
-view : Model -> Html Msg
-view model =
-    div [ class "PageContainer" ]
-        [ div [ class "SignupContainer" ]
-            [ formNavigation model
-            , div [ class "SignupContainer-form" ]
-                [ h1 [ class "SignupContainer-title" ][ text formTitle ]
-                , case model.currentForm of
-                    Types.Account -> accountForm model
-                    Types.Details -> detailsForm model
-                    Types.Confirm -> confirmForm model
-                ]
-            ]
-        ]
 
 ---- PROGRAM ----
 
