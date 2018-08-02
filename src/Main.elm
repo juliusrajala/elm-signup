@@ -14,7 +14,7 @@ initialState =
     , password = ""
     , repeatPassword = ""
     , currentForm = Types.Account
-    , validEmail = False
+    , validForms = []
     }
 
 init : ( Model, Cmd Msg )

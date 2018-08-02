@@ -8,7 +8,7 @@ type alias Model =
     , password : String
     , repeatPassword : String
     , currentForm : FormView
-    , validEmail : Bool
+    , validForms : List FormView
     }
 
 type FormView

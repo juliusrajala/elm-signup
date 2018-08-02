@@ -6,7 +6,7 @@ import Html.Events exposing (onInput)
 
 import Types exposing (Model, Msg)
 import Utils.Strings exposing (formTitle, welcomeMessage)
-import Utils.Validation exposing (validPassword)
+import Utils.Validation exposing (isFormValid)
 import Views.ActionButton exposing (actionButton)
 
 accountForm : Model -> Html Msg
@@ -19,5 +19,5 @@ accountForm model =
             [ text "Password", input [ class "Input-field", type_ "password", value model.password ] [] ]
         , label [ class "Input-label", onInput (Types.MsgForAccount << Types.ChangeRepeatPassword) ]
             [ text "Repeat password", input [ class "Input-field", type_ "password", value model.repeatPassword ] [] ]
-        , actionButton "Next" (validPassword model) (Types.SetView Types.Details)
+        , actionButton "Next" (isFormValid Types.Account model) (Types.SetView Types.Details)
         ]

@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Types exposing (..)
+import Utils.Helpers exposing (validateForm)
 
 updateAccount : AccountMsg -> Model -> ( Model, Cmd Msg )
 updateAccount msg model =
@@ -8,9 +9,10 @@ updateAccount msg model =
         Types.ChangeEmail email ->
             ( { model | email = email }, Cmd.none )
         Types.ChangePassword password ->
-            ( { model | password = password }, Cmd.none )
+            { model | password = password }
+                |> ( validateForm model, Cmd.none )
         Types.ChangeRepeatPassword repeatPassword ->
-            ( { model | repeatPassword = repeatPassword }, Cmd.none )
+            ( { model | repeatPassword = repeatPassword, validForms = (validateForm model) }, Cmd.none )
 
 updateDetails : DetailsMsg -> Model -> ( Model, Cmd Msg )
 updateDetails msg model =
